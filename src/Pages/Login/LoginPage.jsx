@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./login.css";
+import "./login.css"
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseconfig"; // Certifique-se do caminho correto.
@@ -46,6 +46,7 @@ function Login() {
 
   return (
     <>
+   
       <div className="container">
         <h1 className="titulo">CoinTech</h1>
 
