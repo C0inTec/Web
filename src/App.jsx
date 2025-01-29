@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Registro from "./Pages/Register/RegisterPage.jsx";
 import Login from "./Pages/Login/LoginPage.jsx";
+import Renda from "./Pages/Renda/RendaPage.jsx"
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         {/* Rota para registro */}
         <Route path="/registro" element={<Registro />} />
+        {/* Rota para registos */}
+        <Route path="/renda" element={<Renda />} />
       </Routes>
     </Router>
   );
