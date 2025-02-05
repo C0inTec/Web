@@ -3,6 +3,10 @@ import "./login.css"
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseconfig"; // Certifique-se do caminho correto.
+import { FaBitcoin } from "react-icons/fa";
+import { BsCoin } from "react-icons/bs";
+
+
 
 function Login() {
   const [email, setEmail] = useState(""); // Estado para o email
@@ -46,9 +50,16 @@ function Login() {
 
   return (
     <>
-   
-      <div className="container">
+      <div className="background-Login">
+      <div className="lefside_container">
+        <h1 className="title_coin">Organize suas finanças</h1>
+        <FaBitcoin className="imagem"/>
+      </div >
+        <div className="div_tile_login">
+        <BsCoin className="icon_title"/>
         <h1 className="titulo">CoinTech</h1>
+        </div>
+      <div className="container">
 
         <form onSubmit={handleLogin}>
           <h1>Login</h1>
@@ -107,7 +118,9 @@ function Login() {
           </div>
         </form>
       </div>
+      </div>
     </>
+      
   );
 }
 

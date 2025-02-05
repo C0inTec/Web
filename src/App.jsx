@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Registro from "./Pages/Register/RegisterPage.jsx";
 import Login from "./Pages/Login/LoginPage.jsx";
 import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
+import Loginreg from "./Pages/LoginReg/loginreg.jsx";
 
 function App() {
   return (
@@ -14,10 +15,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         {/* Rota para registro */}
         <Route path="/registro" element={<Registro />} />
-
+      
         <Route path="/dashboard" element={<Dashboard/>} />
 
-
+        <Route path="/teste" element={<Loginreg/>} />
 
       </Routes>
     </Router>

@@ -58,6 +58,8 @@ function Registro() {
   };
 
   return (
+    <div className="background-register">
+
     <div className="container_register">
       <form onSubmit={handleRegister}>
         <h1 className="titulo">Cadastro</h1>
@@ -115,6 +117,7 @@ function Registro() {
           Cadastre-se
         </button>
       </form>
+    </div>
     </div>
   );
 }
