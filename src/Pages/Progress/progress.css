@@ -1,0 +1,49 @@
+.progress-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.input-container {
+    margin: 10px 0;
+}
+
+.input-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input-container input {
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+}
+
+.update-button {
+    background-color: yellow;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+.chart-container {
+    width: 80%;
+    max-width: 600px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: yellow;
+    border-radius: 10px;
+}
