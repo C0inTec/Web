@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./login.css";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebaseconfig"; // Certifique-se do caminho correto.
+
+import axios from 'axios'; // Importa o Axios
 
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false); // Alternar entre Login e Cadastro
@@ -20,31 +21,34 @@ function Login() {
     setError(""); // Limpar erros ao alternar
   };
 
+  const [first_name, setfirst_name] = useState("");
+  const [last_name, setlast_name] = useState("");
+  const [date_of_birthday, setdate_of_birthday] = useState("");
+  const [phone, setPhone] = useState("");
+  const [cpf, setCpf] = useState("");
+
   // Função para lidar com o login
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      console.log("Usuário logado:", userCredential.user);
-      navigate("/dashboard"); 
+      const response = await axios.post('https://ab8f-2804-954-3c0-aa00-2cd2-b927-e182-6a51.ngrok-free.app/auth/login', {
+        email: email,
+        password: password,
+      });
+
+      // Se a requisição for bem-sucedida, armazene o token ou redirecione
+      console.log('Login bem-sucedido:', response.data);
+      const token = response.data.token; // Supondo que a API retorne um token
+      localStorage.setItem('token', token); // Armazena o token no localStorage
+      setError(null); // Limpa qualquer erro anterior
+
+      // Redireciona o usuário para outra página
+      navigate('/dashboard');
     } catch (err) {
-      console.error("Erro ao fazer login:", err);
-      switch (err.code) {
-        case "auth/user-not-found":
-          setError("Usuário não encontrado.");
-          break;
-        case "auth/wrong-password":
-          setError("Senha incorreta.");
-          break;
-        case "auth/invalid-email":
-          setError("Formato de email inválido.");
-          break;
-        default:
-          setError("Erro ao fazer login. Tente novamente.");
-          break;
-      }
+      console.error('Erro ao fazer login:', err);
+      setError('Email ou senha incorretos'); // Exibe uma mensagem de erro
     }
   };
 
@@ -59,22 +63,33 @@ function Login() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      console.log("Usuário cadastrado:", userCredential.user);
+      const response = await axios.post('https://ab8f-2804-954-3c0-aa00-2cd2-b927-e182-6a51.ngrok-free.app/auth/register', {
+        email: email,
+        password: password,
+        first_name:first_name,
+        last_name:last_name,
+        phone:phone,
+        cpf:cpf,
+        role:"user",
+        date_of_birthday: date_of_birthday
+
+      });
+      // Se a requisição for bem-sucedida, exibe uma mensagem de sucesso e redireciona
+      console.log('Cadastro bem-sucedido:', response.data);
       setSuccessMessage("Cadastro realizado com sucesso! Redirecionando...");
 
-      setTimeout(()=> {
+      setTimeout(() => {
         setSuccessMessage("");
-        navigate("/dashboard")
+        navigate("/dashboard");
       }, 3000);
 
     } catch (err) {
-      console.error("Erro ao cadastrar:", err);
-      switch (err.code) {
-        case "auth/email-already-in-use":
+      console.error('Erro ao cadastrar:', err);
+      switch (err.response?.data?.message) {
+        case "Email já cadastrado":
           setError("Este email já está cadastrado.");
           break;
-        case "auth/weak-password":
+        case "Senha muito fraca":
           setError("Senha muito fraca. Use pelo menos 6 caracteres.");
           break;
         default:
@@ -96,53 +111,132 @@ function Login() {
 
           {error && <p style={{ color: "red" }}>{error}</p>}
 
-          <div className="campoLogin">
-            <input
-              type="email"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="campoSenha">
-            <input
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Campo de confirmação de senha apenas no cadastro */}
-          {isRegistering && (
-            <div className="campoSenha">
-              <input
-                type="password"
-                placeholder="Confirmar Senha"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-              />
-            </div>
-          )}
-
-          {/* Opção "Lembrar de mim" no Login */}
+          {/* Campos de Login */}
           {!isRegistering && (
-            <div className="recall-forget">
-              <label>
+            <>
+              <div className="campoLogin">
                 <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
                 />
-                Lembrar de mim
-              </label>
-              <a href="#">Esqueceu a senha?</a>
-            </div>
+              </div>
+
+              <div className="campoSenha">
+                <input
+                  type="password"
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              {/* Opção "Lembrar de mim" no Login */}
+              <div className="recall-forget">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                  />
+                  Lembrar de mim
+                </label>
+                <a href="#">Esqueceu a senha?</a>
+              </div>
+            </>
           )}
+
+          {/* Campos de Cadastro */}
+          {isRegistering && (
+            <>
+              <div className="campoLogin">
+                <input
+                  type="text"
+                  placeholder=" Nome"
+                  value={first_name}
+                  onChange={(e) => setfirst_name(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoLogin">
+                <input
+                  type="text"
+                  placeholder="Sobrenome"
+                  value={last_name}
+                  onChange={(e) => setlast_name(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoLogin">
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoLogin">
+                <input
+                  type="date"
+                  placeholder="Data de Nascimento"
+                  value={date_of_birthday}
+                  onChange={(e) => setdate_of_birthday(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoLogin">
+                <input
+                  type="tel"
+                  placeholder="Telefone"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoLogin">
+                <input
+                  type="text"
+                  placeholder="CPF"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoSenha">
+                <input
+                  type="password"
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="campoSenha">
+                <input
+                  type="password"
+                  placeholder="Confirmar Senha"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+             
+            </>
+          )}
+
+
+          
 
           {/* Botão de ação (Login ou Cadastro) */}
           <button className="botao" type="submit">
@@ -173,3 +267,5 @@ function Login() {
 }
 
 export default Login;
+
+

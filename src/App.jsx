@@ -5,8 +5,10 @@ import Login from "./Pages/Login/LoginPage.jsx";
 import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
 import Loginreg from "./Pages/LoginReg/loginreg.jsx";
 import Test from "./Pages/TestApi/apiTest.jsx";
+import LoginApi from "./Pages/TestApi/apiLogin.jsx";
 
 function App() {
+  
   return (
     <Router>
       <Routes>
@@ -21,6 +23,9 @@ function App() {
 
         <Route path="/teste" element={<Loginreg/>} /> 
         <Route path="/testeApi" element={<Test/>} /> 
+        <Route path="/testeLogin" element={<LoginApi/>} /> 
+
+       
 
 
       </Routes>

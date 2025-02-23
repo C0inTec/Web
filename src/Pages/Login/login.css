@@ -20,19 +20,19 @@
 
 .container{
     width: 450px;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     display: flex;
-    margin-left: 540px;
-    margin-top: 130px;
-    border-bottom: 5px solid whitesmoke;} 
+    margin-left: 790px;
+    margin-top: 250px;
 
+}
 
 
  .titulo {
     color: yellow;
     font-weight: 500px;
     font-size: 40px;
-    margin-left: 20px;
     margin-bottom: 10px;
     justify-content: center;
     align-items: center;
