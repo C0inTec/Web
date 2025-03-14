@@ -58,14 +58,16 @@ function Registro() {
   };
 
   return (
-    <div className="container">
+    <div className="background-register">
+
+    <div className="container_register">
       <form onSubmit={handleRegister}>
         <h1 className="titulo">Cadastro</h1>
 
         {/* Exibe mensagens de erro */}
         {error && <p style={{ color: "red", marginBottom: "10px" }}>{error}</p>}
 
-        <div className="campoLogin">
+        <div className="campoLogin_register">
           <input
             type="email"
             placeholder="Email"
@@ -75,7 +77,7 @@ function Registro() {
           />
         </div>
 
-        <div className="campoSureLogin">
+        <div className="campoSureLogin_register">
           <input
             type="email"
             placeholder="Confirmar Email"
@@ -85,7 +87,7 @@ function Registro() {
           />
         </div>
 
-        <div className="campoSenha">
+        <div className="campoSenha_register">
           <input
             type="password"
             placeholder="Senha"
@@ -95,7 +97,7 @@ function Registro() {
           />
         </div>
 
-        <div className="campoSureSenha">
+        <div className="campoSureSenha_register">
           <input
             type="password"
             placeholder="Confirmar Senha"
@@ -106,15 +108,16 @@ function Registro() {
         </div>
 
         <div>
-          <label className="aceiteTermos">
+          <label className="aceiteTermos_register">
             <input type="checkbox" required /> Aceite os termos
           </label>
         </div>
 
-        <button type="submit" className="botao">
+        <button type="submit" className="botao_register">
           Cadastre-se
         </button>
       </form>
+    </div>
     </div>
   );
 }
