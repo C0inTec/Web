@@ -12,6 +12,7 @@
   "dependencies": {
     "chart.js": "^4.4.7",
     "chartjs-plugin-annotation": "^3.1.0",
+    "axios": "^1.7.9",
     "firebase": "^11.1.0",
     "icons": "^1.0.0",
     "jspdf": "^2.5.1",
