@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./login.css"
 import "./login.css";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../config/firebaseconfig"; // Certifique-se do caminho correto.
