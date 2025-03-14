@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BsTrashFill } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 
