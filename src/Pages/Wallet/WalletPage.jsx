@@ -39,20 +39,13 @@ const WalletPage = () => {
     return instance;
   }, []);
 
-  // Redirecionar para o login se o userId não existir
-  useEffect(() => {
-    console.log("userId recuperado:", userId); // Depuração
-
-    if (!userId) {
-      console.error("userId não encontrado no localStorage.");
-      navigate('/login');
-    }
-  }, [userId, navigate]);
-
   // Função para carregar a carteira do usuário
   const loadWallet = useCallback(async () => {
     try {
+      console.log("Fazendo requisição para carregar a carteira...");
       const response = await api().get(`/wallet?userId=${userId}`);
+      console.log("Resposta do servidor:", response.data);
+
       if (response.data) {
         setWalletData({
           despesas: response.data.despesas || { aluguel: 0, contas: 0, alimentacao: 0, transporte: 0, educacao: 0, saude: 0, lazer: 0 },
@@ -61,6 +54,7 @@ const WalletPage = () => {
         });
       }
     } catch (err) {
+      console.error("Erro ao carregar a carteira:", err);
       if (err.response?.status === 404) {
         // Se a carteira não existir, cria uma nova
         await handleCreateWallet();
@@ -68,7 +62,7 @@ const WalletPage = () => {
         setError(`Erro: ${err.message} - Verifique sua conexão`);
       }
     } finally {
-      setLoading(false);
+      setLoading(false); // Garante que o loading seja definido como false
     }
   }, [api, userId]);
 
@@ -97,13 +91,29 @@ const WalletPage = () => {
     } catch (err) {
       console.error("Erro ao criar carteira:", err);
       setError(`Erro ao criar carteira: ${err.message}`);
+    } finally {
+      setLoading(false); // Garante que o loading seja definido como false
     }
   }, [api, userId]);
 
   // Carregar a carteira ao montar o componente
   useEffect(() => {
-    loadWallet();
-  }, [loadWallet]);
+    if (userId) {
+      loadWallet();
+    }
+  }, [userId, loadWallet]);
+
+  // Função para lidar com mudanças nos inputs
+  const handleChange = (e, category) => {
+    const { name, value } = e.target;
+    setWalletData(prev => ({
+      ...prev,
+      [category]: {
+        ...prev[category],
+        [name]: parseFloat(value) || 0 // Converte o valor para número ou usa 0 se for inválido
+      }
+    }));
+  };
 
   // Função para salvar as alterações
   const handleSubmit = async (e) => {
