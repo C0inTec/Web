@@ -1,0 +1,167 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.wallet-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-y: auto; /* Adiciona barra de rolagem vertical */
+  height: 100vh; /* Garante que o contêiner ocupe toda a altura da tela */
+  background-color: #f4f4f4; /* Cor de fundo da página */
+}
+
+.wallet-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wallet-header h1 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+}
+
+.wallet-form {
+  width: 100%;
+  max-width: 800px;
+}
+
+.section-container {
+  margin-bottom: 20px;
+  background-color: gold; /* Cor amarela para as caixas */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black; /* Cor preta para os títulos */
+  margin-bottom: 15px;
+}
+
+.input-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: black; /* Cor preta para os rótulos */
+}
+
+.glow-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
+  transition: background-color 0.3s ease;
+}
+
+.glow-input:focus {
+  background-color: white; /* Fundo branco ao focar */
+  outline: none;
+  border-color: #007bff; /* Borda azul ao focar */
+}
+
+.glow-button {
+  padding: 10px 20px;
+  background-color: black; /* Cor preta para o botão */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.glow-button:hover {
+  background-color: #333; /* Cor mais clara ao passar o mouse */
+  transform: scale(1.05); /* Efeito de escala ao passar o mouse */
+}
+
+.glow-button:active {
+  transform: scale(0.95); /* Efeito de escala ao clicar */
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .wallet-page {
+      padding: 10px;
+  }
+
+  .section-container {
+      padding: 15px;
+  }
+
+  .section-title {
+      font-size: 20px;
+  }
+
+  .input-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+  }
+
+  .glow-input {
+      font-size: 14px;
+  }
+
+  .glow-button {
+      font-size: 14px;
+      padding: 8px 16px;
+  }
+}
