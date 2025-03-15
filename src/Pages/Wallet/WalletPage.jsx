@@ -43,7 +43,7 @@ const WalletPage = () => {
   const loadWallet = useCallback(async () => {
     try {
       console.log("Fazendo requisição para carregar a carteira...");
-      const response = await api().get(`/wallet?userId=${userId}`);
+      const response = await api().get(`/wallet/${userId}`);
       console.log("Resposta do servidor:", response.data);
 
       if (response.data) {
@@ -55,42 +55,7 @@ const WalletPage = () => {
       }
     } catch (err) {
       console.error("Erro ao carregar a carteira:", err);
-      if (err.response?.status === 404) {
-        // Se a carteira não existir, cria uma nova
-        await handleCreateWallet();
-      } else {
-        setError(`Erro: ${err.message} - Verifique sua conexão`);
-      }
-    } finally {
-      setLoading(false); // Garante que o loading seja definido como false
-    }
-  }, [api, userId]);
-
-  // Função para criar uma nova carteira
-  const handleCreateWallet = useCallback(async () => {
-    try {
-      const newWallet = {
-        userId: Number(userId), // Usar o userId recuperado
-        despesas: { aluguel: 0, contas: 0, alimentacao: 0, transporte: 0, educacao: 0, saude: 0, lazer: 0 },
-        ganhos: { salario: 0, bonus: 0, outros: 0, rendimentosPassivos: 0, freelas: 0, dividendos: 0 },
-        investimento: { acoes: 0, imoveis: 0, criptomoedas: 0, rendafixa: 0, negocios: 0, fundos: 0 }
-      };
-
-      console.log("Enviando payload para criar carteira:", newWallet);
-
-      // Usar PUT para criar/atualizar a carteira
-      const response = await api().put('/wallet', newWallet);
-
-      console.log("Resposta do servidor:", response.data);
-
-      setWalletData({
-        despesas: response.data.despesas || { aluguel: 0, contas: 0, alimentacao: 0, transporte: 0, educacao: 0, saude: 0, lazer: 0 },
-        ganhos: response.data.ganhos || { salario: 0, bonus: 0, outros: 0, rendimentosPassivos: 0, freelas: 0, dividendos: 0 },
-        investimento: response.data.investimento || { acoes: 0, imoveis: 0, criptomoedas: 0, rendafixa: 0, negocios: 0, fundos: 0 }
-      });
-    } catch (err) {
-      console.error("Erro ao criar carteira:", err);
-      setError(`Erro ao criar carteira: ${err.message}`);
+      setError(`Erro: ${err.message} - Verifique sua conexão`);
     } finally {
       setLoading(false); // Garante que o loading seja definido como false
     }
@@ -230,9 +195,6 @@ const WalletPage = () => {
       ) : (
         <div className="no-wallet-container">
           <h2 className="no-wallet-title">Carteira não encontrada</h2>
-          <button className="create-button" onClick={handleCreateWallet}>
-            Criar Nova Carteira
-          </button>
         </div>
       )}
     </div>
