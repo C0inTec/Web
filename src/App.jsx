@@ -5,14 +5,15 @@ import Registro from './Pages/Register/RegisterPage.jsx';
 import Dashboard from './Pages/Dashboard/Dashboard.jsx';
 import Progress from './Pages/Progress/progress.jsx';
 import WalletPage from './Pages/Wallet/WalletPage.jsx';
-import Navbar from './Components/Navbar/Navbar.jsx'; // Importe o componente Navbar
+import Renda from './Pages/Renda/RendaPage.jsx';
+import Navbar from './components/Navbar/Navbar.jsx';
 
 // Layout compartilhado que inclui a Navbar
 const SharedLayout = ({ children }) => {
   return (
-    <div>
+    <div style={{ backgroundColor: 'black', minHeight: '100vh' }}> {/* Fundo preto */}
       <Navbar /> {/* Navbar fixa no topo */}
-      <main>{children}</main> {/* Conteúdo da página */}
+      <main style={{ paddingTop: '60px' }}>{children}</main> {/* Conteúdo da página com padding para não ficar sob a navbar */}
     </div>
   );
 };
@@ -47,6 +48,14 @@ function App() {
           element={
             <SharedLayout>
               <WalletPage />
+            </SharedLayout>
+          }
+        />
+        <Route
+          path="/renda"
+          element={
+            <SharedLayout>
+              <Renda />
             </SharedLayout>
           }
         />
