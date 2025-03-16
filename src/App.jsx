@@ -6,6 +6,7 @@ import Dashboard from './Pages/Dashboard/Dashboard.jsx';
 import Progress from './Pages/Progress/progress.jsx';
 import WalletPage from './Pages/Wallet/WalletPage.jsx';
 import Renda from './Pages/Renda/RendaPage.jsx';
+import Perfil from './Pages/Perfil/Perfil.jsx';
 import Navbar from './components/Navbar/Navbar.jsx';
 
 // Layout compartilhado que inclui a Navbar
@@ -48,6 +49,14 @@ function App() {
           element={
             <SharedLayout>
               <WalletPage />
+            </SharedLayout>
+          }
+        />
+        <Route
+          path="/perfil"
+          element={
+            <SharedLayout>
+              <Perfil />
             </SharedLayout>
           }
         />

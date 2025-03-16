@@ -40,6 +40,14 @@ const Navbar = () => {
             Renda
           </Link>
         </li>
+        <li className="navbar-item">
+          <Link
+            to="/perfil"
+            className={`navbar-link ${location.pathname === '/perfil' ? 'active' : ''}`}
+          >
+            Perfil
+          </Link>
+        </li>
       </ul>
     </nav>
   );
