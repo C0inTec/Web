@@ -12,6 +12,7 @@ const WalletPage = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [activeSection, setActiveSection] = useState(null); // Controla a seção ativa
   const userId = localStorage.getItem('userId');
 
   // Configuração do Axios com useCallback
@@ -42,10 +43,7 @@ const WalletPage = () => {
   // Função para carregar a carteira do usuário
   const loadWallet = useCallback(async () => {
     try {
-      console.log("Fazendo requisição para carregar a carteira...");
       const response = await api().get(`/wallet/${userId}`);
-      console.log("Resposta do servidor:", response.data);
-
       if (response.data) {
         setWalletData({
           despesas: response.data.despesas || { aluguel: 0, contas: 0, alimentacao: 0, transporte: 0, educacao: 0, saude: 0, lazer: 0 },
@@ -57,7 +55,7 @@ const WalletPage = () => {
       console.error("Erro ao carregar a carteira:", err);
       setError(`Erro: ${err.message} - Verifique sua conexão`);
     } finally {
-      setLoading(false); // Garante que o loading seja definido como false
+      setLoading(false);
     }
   }, [api, userId]);
 
@@ -75,7 +73,7 @@ const WalletPage = () => {
       ...prev,
       [category]: {
         ...prev[category],
-        [name]: parseFloat(value) || 0 // Converte o valor para número ou usa 0 se for inválido
+        [name]: parseFloat(value) || 0
       }
     }));
   };
@@ -85,18 +83,12 @@ const WalletPage = () => {
     e.preventDefault();
     try {
       const payload = {
-        userId: Number(userId), // Usar o userId recuperado
+        userId: Number(userId),
         despesas: walletData.despesas,
         ganhos: walletData.ganhos,
         investimento: walletData.investimento
       };
-
-      console.log("Payload enviado:", payload); // Depuração
-
-      // Usar PUT para atualizar a carteira
-      const response = await api().put('/wallet', payload);
-      console.log("Resposta do servidor:", response.data); // Depuração
-
+      await api().put('/wallet', payload);
       alert('Alterações salvas com sucesso!');
     } catch (err) {
       console.error("Erro ao salvar:", err);
@@ -116,20 +108,20 @@ const WalletPage = () => {
 
   return (
     <div className="wallet-page">
-      <header className="wallet-header">
-        <h1 className="wallet-title">
-          {walletData ? 'Sua Carteira Financeira' : 'Nova Carteira'}
-        </h1>
-        {error && <p className="error-message">{error}</p>}
-      </header>
+      {/* Lado Esquerdo - Botões */}
+      <div className="sidebar">
+        <button onClick={() => setActiveSection('despesas')}>Ver Despesas</button>
+        <button onClick={() => setActiveSection('ganhos')}>Ver Ganhos</button>
+        <button onClick={() => setActiveSection('investimento')}>Ver Investimentos</button>
+      </div>
 
-      {walletData ? (
-        <form onSubmit={handleSubmit} className="wallet-form">
-          {/* Seção de Despesas */}
-          <section className="section-container">
-            <h2 className="section-title">Despesas</h2>
+      {/* Centro à Direita - Quadro Dinâmico */}
+      <div className="main-content">
+        {activeSection && (
+          <div className="section-container">
+            <h2 className="section-title">{activeSection.charAt(0).toUpperCase() + activeSection.slice(1)}</h2>
             <div className="input-grid">
-              {Object.entries(walletData.despesas || {}).map(([key, value]) => (
+              {Object.entries(walletData[activeSection] || {}).map(([key, value]) => (
                 <div key={key} className="input-group">
                   <label className="input-label">
                     {key.charAt(0).toUpperCase() + key.slice(1)}
@@ -138,65 +130,18 @@ const WalletPage = () => {
                     type="number"
                     name={key}
                     value={value}
-                    onChange={(e) => handleChange(e, 'despesas')}
+                    onChange={(e) => handleChange(e, activeSection)}
                     className="glow-input"
                   />
                 </div>
               ))}
             </div>
-          </section>
-
-          {/* Seção de Ganhos */}
-          <section className="section-container">
-            <h2 className="section-title">Ganhos</h2>
-            <div className="input-grid">
-              {Object.entries(walletData.ganhos || {}).map(([key, value]) => (
-                <div key={key} className="input-group">
-                  <label className="input-label">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                  </label>
-                  <input
-                    type="number"
-                    name={key}
-                    value={value}
-                    onChange={(e) => handleChange(e, 'ganhos')}
-                    className="glow-input"
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-
-          {/* Seção de Investimentos */}
-          <section className="section-container">
-            <h2 className="section-title">Investimentos</h2>
-            <div className="input-grid">
-              {Object.entries(walletData.investimento || {}).map(([key, value]) => (
-                <div key={key} className="input-group">
-                  <label className="input-label">
-                    {key.charAt(0).toUpperCase() + key.slice(1)}
-                  </label>
-                  <input
-                    type="number"
-                    name={key}
-                    value={value}
-                    onChange={(e) => handleChange(e, 'investimento')}
-                    className="glow-input"
-                  />
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <button type="submit" className="glow-button">
-            Salvar Alterações
-          </button>
-        </form>
-      ) : (
-        <div className="no-wallet-container">
-          <h2 className="no-wallet-title">Carteira não encontrada</h2>
-        </div>
-      )}
+            <button type="button" onClick={handleSubmit} className="glow-button">
+              Salvar Alterações
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
