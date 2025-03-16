@@ -1,164 +1,40 @@
-
-.cley{
-  color: #dc3545;
-  font-size: 100px;
-  font-weight: 600;
-
+/* Estilos para o contêiner principal */
+.dashboard-container {
+  display: flex;
+  flex-direction: column; /* Alinha os itens verticalmente */
+  justify-content: center; /* Centraliza o conteúdo horizontalmente */
+  align-items: center; /* Centraliza o conteúdo verticalmente */
+  background-color: black; /* Fundo preto */
+  min-height: 100vh; /* Ocupa toda a altura da tela */
+  padding: 20px; /* Adiciona um pouco de espaçamento */
 }
-.form-container {
-    display: flex;
-    flex-direction: column;
-    background-color:whitesmoke;
-    padding: 1rem;
-    border-radius: 8px;
-    max-width: 550px;
-    margin-top: 220px; }
 
+/* Estilos para o contêiner da logo e texto */
+.logo-container {
+  text-align: center; /* Centraliza o conteúdo horizontalmente */
+  margin-top: -300px; /* Move o conteúdo para cima (ajuste conforme necessário) */
+}
 
-.form-container_title {
-        font-size: 35px;
-        font-weight: bold;
-        color: #333;
-    }
+/* Estilos para o texto "Cointech" */
+.cointech-text {
+  color: gold; /* Cor dourada */
+  font-size: 48px; /* Tamanho da fonte */
+  font-weight: bold; /* Texto em negrito */
+  margin-bottom: 20px; /* Espaçamento abaixo do texto */
+  text-shadow: 0 0 10px gold, 0 0 20px gold; /* Efeito de brilho dourado */
+}
 
-    .form-container .input {
-        font-size: 1rem;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        width: 100%;
-      }
+/* Estilos para a imagem */
+.logo-image {
+  max-width: 300px; /* Define o tamanho máximo da imagem */
+  height: auto; /* Mantém a proporção da imagem */
+  border-radius: 10px; /* Bordas arredondadas */
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1); /* Sombra suave */
+}
 
-      .form-container input:focus {
-        outline: none;
-        border-color: #007bff;
-      }
-
-      .form-container .button_add {
-        padding: 0.75rem;
-        font-size: 1rem;
-        border: none;
-        border-radius: 5px;
-        background-color: #007bff;
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin-left: 10px;
-      }
-
-      .form-container .button_add:hover {
-        background-color: #0056b3;
-      }
-
-      /* Tabela */
-
-      .item-amount {
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
-
-      .item-amount.income {
-        color: #28a745; /* Verde para rendimentos */
-      }
-      
-      .item-amount.debt {
-        color: #dc3545; /* Vermelho para dívidas */
-      }
-      
-     
-      .table_button_remove{
-        font-size: 1rem;
-        border: none;
-        border-radius: 10px;
-        background-color:red;
-        color: white;
-        margin-left: 5px;
-      }
-      .table-container th,
-      .table-container td {
-        text-align: left;
-        padding: 1rem;
-        border-bottom: 1px solid #ddd;
-      }
-      
-      .table-container th {
-        background-color: #007bff;
-        color: white;
-        font-weight: bold;
-      }
-      
-      .table-container tr:nth-child(even) {
-        background-color: #f9f9f9;
-      }
-      
-      .table-container tr:hover {
-        background-color: #e0e0e0;
-      }
-
-      .button {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-      }
-      
-      .button_remove{
-        color: red;
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
-      }
-
-      .button_remove:hover{
-        background-color: green;
-      }
-
-      .button-primary {
-        background-color: #007bff;
-        color: white;
-      }
-      
-      .button-primary:hover {
-        background-color: #0056b3;
-      }
-      
-      .button-danger {
-        background-color: #dc3545;
-        color: white;
-      }
-      
-      .button-danger:hover {
-        background-color: #a71d2a;
-      }
-
-      .saldo_disponivel{
-        font-weight: bold;
-        font-size: 1.2rem;
-      }
-
-      .saldo_disponivel.positive{
-        color: #28a745;
-      }
-
-      .saldo_disponivel.negative{
-        color: #a71d2a;
-      }
-
-      
-      .remove-icon:hover {
-        color: #a71d2a; 
-        transform:scale(1.3) ;
-        transition: transform 0.2s ease-in-out;
-      }
-
-      .edit-icon{
-        font-size: large;
-        margin-right: 10px;
-      }
-      .edit-icon:hover{
-        transform: scale(1.3); /* Aumenta o tamanho em 30% */
-        transition: transform 0.2s ease-in-out; /* Suaviza a transição */
-      }
-      
+/* Estilos para o contêiner do chatbot */
+.chatbot-wrapper {
+  margin-top: 20px; /* Espaçamento acima do chatbot */
+  width: 100%; /* Largura total */
+  max-width: 600px; /* Largura máxima do chatbot */
+}
