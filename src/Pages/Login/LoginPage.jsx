@@ -31,7 +31,7 @@ function Login() {
     setError("");
 
     try {
-      const response = await axios.post('https://fc4e-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app/auth/login', {
+      const response = await axios.post('https://9639-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app/auth/login', {
         email: email,
         password: password,
       });
@@ -69,7 +69,7 @@ function Login() {
     }
 
     try {
-      const response = await axios.post('https://fc4e-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app/auth/register', {
+      const response = await axios.post('https://9639-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app/auth/register', {
         email: email,
         password: password,
         first_name: first_name,

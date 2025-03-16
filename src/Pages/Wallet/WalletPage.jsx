@@ -18,7 +18,7 @@ const WalletPage = () => {
   // Configuração do Axios com useCallback
   const api = useCallback(() => {
     const instance = axios.create({
-      baseURL: 'https://fc4e-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app',
+      baseURL: 'https://9639-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app',
       headers: {
         'Content-Type': 'application/json',
         'ngrok-skip-browser-warning': 'true',

@@ -14,12 +14,14 @@ const Perfil = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [perfilGastos, setPerfilGastos] = useState(null); // Estado para armazenar o perfil de gastos
+  const [modalAberto, setModalAberto] = useState(false); // Estado para controlar a abertura do modal
   const userId = localStorage.getItem("userId");
 
   // Configuração do Axios com useCallback
   const api = useCallback(() => {
     const instance = axios.create({
-      baseURL: "https://fc4e-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app",
+      baseURL: "https://9639-2804-954-39e-e500-c4e4-fe22-a64f-8b8c.ngrok-free.app",
       headers: {
         "Content-Type": "application/json",
         "ngrok-skip-browser-warning": "true",
@@ -73,9 +75,60 @@ const Perfil = () => {
     navigate("/login");   // Redireciona para a página de login
   };
 
-  // Função para o botão de Perfil de Gastos (por enquanto sem funcionalidade)
-  const handlePerfilGastos = () => {
-    alert("Funcionalidade de Perfil de Gastos será implementada em breve!");
+  // Função para classificar o perfil de gastos
+  const handlePerfilGastos = async () => {
+    try {
+      // Busca os dados da carteira do usuário
+      const response = await api().get(`/wallet/${userId}`);
+      const walletData = response.data;
+
+      // Prepara os dados para enviar à IA
+      const dadosUsuario = {
+        ganhos: walletData.ganhos || {
+          salario: 0,
+          bonus: 0,
+          outros: 0,
+          rendimentosPassivos: 0,
+          freelas: 0,
+          dividendos: 0,
+        },
+        despesas: walletData.despesas || {
+          aluguel: 0,
+          contas: 0,
+          alimentacao: 0,
+          transporte: 0,
+          educacao: 0,
+          saude: 0,
+          lazer: 0,
+        },
+        investimentos: walletData.investimento || {
+          acoes: 0,
+          fundos: 0,
+          criptomoedas: 0,
+          imoveis: 0,
+          rendafixa: 0,
+          negocios: 0,
+        },
+      };
+
+      // Envia os dados para a API Flask
+      const iaResponse = await axios.post(
+        "https://ia-8k38.onrender.com/classificar", // URL da API Flask
+        dadosUsuario
+      );
+
+      // Atualiza o estado com o resultado
+      setPerfilGastos(iaResponse.data);
+      setModalAberto(true); // Abre o modal
+    } catch (err) {
+      console.error("Erro ao classificar perfil de gastos:", err);
+      setError("Erro ao classificar perfil de gastos. Tente novamente.");
+    }
+  };
+
+  // Fechar o modal
+  const fecharModal = () => {
+    setModalAberto(false);
   };
 
   // Exibir loading enquanto os dados são carregados
@@ -138,6 +191,28 @@ const Perfil = () => {
           </ul>
         </div>
       </div>
+
+      {/* Modal de Perfil de Gastos */}
+      {modalAberto && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>Seu Perfil de Gastos:</h3>
+            {perfilGastos ? (
+              <>
+                <p>
+                  <strong>Cluster:</strong> {perfilGastos.cluster}
+                </p>
+                <p>
+                  <strong>Descrição:</strong> {perfilGastos.descricao}
+                </p>
+              </>
+            ) : (
+              <p>Carregando...</p>
+            )}
+            <button onClick={fecharModal}>Fechar</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
