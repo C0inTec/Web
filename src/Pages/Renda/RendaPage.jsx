@@ -29,47 +29,49 @@ function Renda() {
 
   return (
     <div className="app-container">
-      <h1>Controle de Dívidas e Rendimentos</h1>
+      <div className="renda-quadro">
+        <h1>Controle de Dívidas e Rendimentos</h1>
 
-      <div className="form">
-        <input
-          type="text"
-          placeholder="Descrição"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Valor"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
-          <option value="montante">Montante</option>
-          <option value="divida">Dívida</option>
-        </select>
-        <button onClick={addEntry}>Adicionar</button>
+        <div className="form">
+          <input
+            type="text"
+            placeholder="Descrição"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+          <input
+            type="number"
+            placeholder="Valor"
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="montante">Montante</option>
+            <option value="divida">Dívida</option>
+          </select>
+          <button onClick={addEntry}>Adicionar</button>
+        </div>
+
+        <ul className="entries-list">
+          {entries.map((entry, index) => (
+            <li key={index} className="entry">
+              <div>
+                <strong>{entry.description}</strong>
+                <span className="date">({entry.date})</span>
+              </div>
+              <div>
+                R$ {entry.value.toFixed(2)}
+                <button className="edit-button">Editar</button>
+                <button className="remove-button" onClick={() => removeEntry(index)}>
+                  Remover
+                </button>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className="balance">Saldo disponível: R$ {calculateBalance().toFixed(2)}</div>
       </div>
-
-      <ul className="entries-list">
-        {entries.map((entry, index) => (
-          <li key={index} className="entry">
-            <div>
-              <strong>{entry.description}</strong>
-              <span className="date">({entry.date})</span>
-            </div>
-            <div>
-              R$ {entry.value.toFixed(2)}
-              <button className="edit-button">Editar</button>
-              <button className="remove-button" onClick={() => removeEntry(index)}>
-                Remover
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-
-      <div className="balance">Saldo disponível: R$ {calculateBalance().toFixed(2)}</div>
     </div>
   );
 }

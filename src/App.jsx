@@ -1,43 +1,77 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Registro from "./Pages/Register/RegisterPage.jsx";
-import Login from "./Pages/Login/LoginPage.jsx";
-import Renda from "./Pages/Renda/RendaPage.jsx"
-import Dashboard from "./Pages/Dashboard/Dashboard.jsx";
-import Loginreg from "./Pages/LoginReg/loginreg.jsx";
-import Progress from "./Pages/Progress/progress.jsx";
-import Test from "./Pages/TestApi/apiTest.jsx";
-import LoginApi from "./Pages/TestApi/apiLogin.jsx";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from './Pages/Login/LoginPage.jsx';
+import Registro from './Pages/Register/RegisterPage.jsx';
+import Dashboard from './Pages/Dashboard/Dashboard.jsx';
+import Progress from './Pages/Progress/progress.jsx';
+import WalletPage from './Pages/Wallet/WalletPage.jsx';
+import Renda from './Pages/Renda/RendaPage.jsx';
+import Perfil from './Pages/Perfil/Perfil.jsx';
+import Navbar from './components/Navbar/Navbar.jsx';
+
+// Layout compartilhado que inclui a Navbar
+const SharedLayout = ({ children }) => {
+  return (
+    <div style={{ backgroundColor: 'black', minHeight: '100vh' }}> {/* Fundo preto */}
+      <Navbar /> {/* Navbar fixa no topo */}
+      <main style={{ paddingTop: '60px' }}>{children}</main> {/* Conteúdo da página com padding para não ficar sob a navbar */}
+    </div>
+  );
+};
 
 function App() {
-  
   return (
     <Router>
       <Routes>
-        {/* Rota inicial redireciona para /login */}
-        <Route path="/" element={<Navigate to="/login"/>} />
-        {/* Rota para login */}
-        <Route path="/login" element={<Login/>} />
-        {/* Rota para registro */}
-        <Route path="/registro" element={<Registro/>} />
-      
-        <Route path="/dashboard" element={<Dashboard/>} />
-
-        <Route path="/teste" element={<Loginreg/>} />
-
-        <Route path="/progress" element={<Progress/>} />
-
+        {/* Páginas sem Navbar */}
+        <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
-        {/* Rota para registos */}
-        <Route path="/renda" element={<Renda />} />
-          
-        <Route path="/dashboard" element={<Dashboard/>} />
 
-        <Route path="/teste" element={<Loginreg/>} /> 
-          
-        <Route path="/testeApi" element={<Test/>} /> 
-          
-        <Route path="/testeLogin" element={<LoginApi/>} /> 
+        {/* Páginas com Navbar */}
+        <Route
+          path="/dashboard"
+          element={
+            <SharedLayout>
+              <Dashboard />
+            </SharedLayout>
+          }
+        />
+        <Route
+          path="/progresso"
+          element={
+            <SharedLayout>
+              <Progress />
+            </SharedLayout>
+          }
+        />
+        <Route
+          path="/carteira"
+          element={
+            <SharedLayout>
+              <WalletPage />
+            </SharedLayout>
+          }
+        />
+        <Route
+          path="/perfil"
+          element={
+            <SharedLayout>
+              <Perfil />
+            </SharedLayout>
+          }
+        />
+        <Route
+          path="/renda"
+          element={
+            <SharedLayout>
+              <Renda />
+            </SharedLayout>
+          }
+        />
+
+        {/* Redirecionamentos */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );
